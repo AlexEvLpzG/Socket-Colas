@@ -1,14 +1,14 @@
 // * Referencias HTML
-const lblNuevoTicket = document.querySelector( '#lblNuevoTicket' );
+const lblNuevoTicket = document.querySelector( 'span' );
 const btnCrear       = document.querySelector( 'button' );
 
 const socket = io();
 
-socket.on('connect', () => {
+socket.on( 'connect', () => {
     btnCrear.disabled = false;
 });
 
-socket.on('disconnect', () => {
+socket.on( 'disconnect', () => {
     btnCrear.disabled = true;
 });
 

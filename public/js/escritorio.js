@@ -27,7 +27,7 @@ socket.on('disconnect', () => {
 });
 
 socket.on( 'ultimo-ticket', ( payload ) => {
-    // lblNuevoTicket.innerText = 'Ticket ' + payload;
+    lblEscritorio.innerText = 'Ticket ' + payload;
 });
 
 btnAtender.addEventListener( 'click', () => {
