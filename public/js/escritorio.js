@@ -1,3 +1,31 @@
+// * referencias HTML
+const lblEscritorio = document.querySelector( 'h1' );
+const btnAtender    = document.querySelector( 'button' );
+const lblTicket     = document.querySelector( 'small' );
+const divAlerta     = document.querySelector( '.alert' );
 
+const searchParams = new URLSearchParams( window.location.search );
 
-console.log('Escritorio HTML');
+if( !searchParams.has( 'escritorio' ) ){
+    window.location = 'index.html';
+    throw new Error( 'El escritorio es obligatorio' );
+}
+
+const escritorio = searchParams.get( 'escritorio' );
+lblEscritorio.innerHTML = escritorio;
+
+divAlerta.style.display = 'none';
+
+const socket = io();
+
+socket.on('connect', () => {
+    btnAtender.disabled = false;
+});
+
+socket.on('disconnect', () => {
+    btnAtender.disabled = true;
+});
+
+socket.on( 'ultimo-ticket', ( payload ) => {
+    // lblNuevoTicket.innerText = 'Ticket ' + payload;
+});
