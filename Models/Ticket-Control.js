@@ -1,5 +1,6 @@
-const path = require( 'path' );
-const fs   = require( 'fs' );
+const path   = require( 'path' );
+const fs     = require( 'fs' );
+const Ticket = require( './Ticket' );
 
 class TicketControl {
     constructor() {
@@ -36,6 +37,36 @@ class TicketControl {
     guardarDB() {
         const dbPath = path.join( __dirname, '../db/data.json' );
         fs.writeFileSync( dbPath, JSON.stringify( this.toJson ) );
+    }
+
+    siguiente() {
+        this.ultimo += 1;
+        const tiket = new Ticket( this.ultimo, null );
+        this.tikets.push( tiket );
+
+        this.guardarDB();
+
+        return 'Ticket ' + tiket.numero;
+    }
+
+    atenderTicket( escritorio ) {
+        // ! No tenemos tickets
+        if( this.tikets.length === 0 ) {
+            return null;
+        }
+
+        const ticket = this.tikets.shift(); // * = this.tikets[0];
+        ticket.escritorio = escritorio;
+
+        this.ultimos4.unshift( ticket );
+
+        if( this.ultimos4.length  > 4 ) {
+            this.ultimos4.splice( -1, 1 );
+        } 
+
+        this.guardarDB();
+
+        return ticket;
     }
 }
 
